@@ -85,7 +85,7 @@ $ npm run build:linux
 - [ViteJS](https://vitejs.dev)
 - [TypeScript](https://typescriptlang.org)
 - [Electron](https://electronjs.org)
-- [React](https://reactjs.org)
+- [React](https://react.dev)
 - [Material-UI](https://mui.com)
 - [Ruffle](https://ruffle.rs)
 
