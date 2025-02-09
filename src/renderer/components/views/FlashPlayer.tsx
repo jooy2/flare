@@ -21,7 +21,7 @@ import ModalConfirm from '@/renderer/components/dialogs/ModalConfirm';
 const FlashPlayer = ({ url = '', autoplay = true, filePath = '', header = true }) => {
   const [t] = useTranslation(['menu']);
   const navigate = useNavigate();
-  const player: any = useRef();
+  const player: any = useRef(null);
   const [rufflePlayer, setRufflePlayer]: any = useState(null);
   const [openFailedToLoadServerModal, setOpenFailedToLoadServerModal] = useState(false);
   const dispatch = useDispatch();
