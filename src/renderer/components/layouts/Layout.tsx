@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
