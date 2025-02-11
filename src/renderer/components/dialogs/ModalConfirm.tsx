@@ -11,7 +11,7 @@ import { userSelectNone } from '@/renderer/utils/styles';
 const ModalConfirm = ({ open = false, noCancel = false, onOk, onCancel, onClose, content }) => {
   const [t] = useTranslation(['common', 'notice', 'menu']);
 
-  const handleDialogClose = async () => {
+  const handleDialogClose = () => {
     onClose();
   };
 
