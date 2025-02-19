@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 
-const ThemeContainer = ({ children }) => {
+export default function ThemeContainer({ children }) {
   const dispatch = useDispatch();
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -111,6 +111,4 @@ const ThemeContainer = ({ children }) => {
       <ThemeProvider theme={muiTheme}>{children}</ThemeProvider>
     </MuiThemeProvider>
   );
-};
-
-export default ThemeContainer;
+}

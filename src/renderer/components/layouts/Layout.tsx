@@ -9,7 +9,7 @@ import { headerArea } from '@/renderer/utils/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 
-const Layout = ({
+export default function Layout({
   title = 'Flare Player',
   titleTail = ' - Flare Flash Player',
   withTail = true,
@@ -19,7 +19,7 @@ const Layout = ({
   withPadding = true,
   withBackButton = false,
   children,
-}) => {
+}) {
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
 
   return (
@@ -71,6 +71,4 @@ const Layout = ({
       </Grid>
     </div>
   );
-};
-
-export default Layout;
+}

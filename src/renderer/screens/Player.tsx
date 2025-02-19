@@ -8,7 +8,7 @@ import Layout from '@/renderer/components/layouts/Layout';
 import FlashPlayer from '@/renderer/components/views/FlashPlayer';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 
-const Player = () => {
+export default function Player() {
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,6 +43,4 @@ const Player = () => {
       />
     </Layout>
   );
-};
-
-export default Player;
+}

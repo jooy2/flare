@@ -18,7 +18,7 @@ import VolumeUp from '@mui/icons-material/VolumeUp';
 import { useTranslation } from 'react-i18next';
 import ModalConfirm from '@/renderer/components/dialogs/ModalConfirm';
 
-const FlashPlayer = ({ url = '', autoplay = true, filePath = '', header = true }) => {
+export default function FlashPlayer({ url = '', autoplay = true, filePath = '', header = true }) {
   const [t] = useTranslation(['menu']);
   const navigate = useNavigate();
   const player: any = useRef(null);
@@ -246,6 +246,4 @@ const FlashPlayer = ({ url = '', autoplay = true, filePath = '', header = true }
       />
     </>
   );
-};
-
-export default FlashPlayer;
+}

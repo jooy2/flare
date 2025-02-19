@@ -14,7 +14,7 @@ import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import { loadingText } from '@/renderer/utils/styles';
 import useTheme from '@mui/material/styles/useTheme';
 
-const Main = () => {
+export default function Main() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [t, i18n] = useTranslation(['common']);
@@ -153,6 +153,4 @@ const Main = () => {
       </Grid>
     </Layout>
   );
-};
-
-export default Main;
+}

@@ -8,7 +8,14 @@ import { useTranslation } from 'react-i18next';
 
 import { userSelectNone } from '@/renderer/utils/styles';
 
-const ModalConfirm = ({ open = false, noCancel = false, onOk, onCancel, onClose, content }) => {
+export default function ModalConfirm({
+  open = false,
+  noCancel = false,
+  onOk,
+  onCancel,
+  onClose,
+  content,
+}) {
   const [t] = useTranslation(['common', 'notice', 'menu']);
 
   const handleDialogClose = () => {
@@ -35,6 +42,4 @@ const ModalConfirm = ({ open = false, noCancel = false, onOk, onCancel, onClose,
       </DialogActions>
     </Dialog>
   );
-};
-
-export default ModalConfirm;
+}

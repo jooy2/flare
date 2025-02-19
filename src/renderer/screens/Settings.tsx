@@ -22,7 +22,7 @@ import PanelHeader from '@/renderer/components/views/PanelHeader';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import ModalLocalStorageView from '../components/dialogs/ModalLocalStorageView';
 
-const Settings = () => {
+export default function Settings() {
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const dispatch = useDispatch();
   const [t, i18n] = useTranslation(['common', 'notice', 'menu']);
@@ -461,6 +461,4 @@ const Settings = () => {
       </Grid>
     </Layout>
   );
-};
-
-export default Settings;
+}

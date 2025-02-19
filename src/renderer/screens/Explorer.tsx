@@ -26,7 +26,7 @@ import { loadingText, paperSm } from '@/renderer/utils/styles';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import useTheme from '@mui/material/styles/useTheme';
 
-const Explorer = () => {
+export default function Explorer() {
   const dispatch = useDispatch();
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const theme = useTheme();
@@ -259,6 +259,4 @@ const Explorer = () => {
       </Grid>
     </Layout>
   );
-};
-
-export default Explorer;
+}

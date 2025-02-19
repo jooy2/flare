@@ -17,7 +17,7 @@ import { useMemo, useState } from 'react';
 import ModalConfirm from '@/renderer/components/dialogs/ModalConfirm';
 import { css } from '@emotion/react';
 
-const ModalLocalStorageView = () => {
+export default function ModalLocalStorageView() {
   const [t] = useTranslation(['common', 'notice', 'menu']);
   const dispatch = useDispatch();
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
@@ -128,6 +128,4 @@ const ModalLocalStorageView = () => {
       />
     </>
   );
-};
-
-export default ModalLocalStorageView;
+}

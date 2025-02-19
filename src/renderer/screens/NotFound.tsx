@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
-const NotFound = () => (
-  <div className="App">
-    <h1>Unknown Error</h1>
-    <Link to="/">Go to Main Page</Link>
-  </div>
-);
-
-export default NotFound;
+export default function NotFound() {
+  return (
+    <div className="App">
+      <h1>Unknown Error</h1>
+      <Link to="/">Go to Main Page</Link>
+    </div>
+  );
+}

@@ -17,7 +17,7 @@ import { userSelectNone } from '@/renderer/utils/styles';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 
-const ModalMetadata = () => {
+export default function ModalMetadata() {
   const [t] = useTranslation(['common', 'notice', 'menu']);
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const dispatch = useDispatch();
@@ -73,6 +73,4 @@ const ModalMetadata = () => {
       </DialogActions>
     </Dialog>
   );
-};
-
-export default ModalMetadata;
+}

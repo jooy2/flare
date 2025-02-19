@@ -15,7 +15,7 @@ import { paperBase } from '@/renderer/utils/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 
-const About = () => {
+export default function About() {
   const [t] = useTranslation(['common', 'notice', 'menu']);
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const ruffleVersion = useMemo(() => stateAppScreen.mainGlobalValues.APP_RUFFLE_VERSION_DATE, []);
@@ -60,6 +60,4 @@ const About = () => {
       </Grid>
     </Layout>
   );
-};
-
-export default About;
+}
