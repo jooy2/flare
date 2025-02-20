@@ -4,6 +4,7 @@ import App from '@/renderer/App';
 import { store } from '@/renderer/store';
 import '@/renderer/i18n';
 import ThemeContainer from '@/renderer/components/layouts/ThemeContainer';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Add API key defined in contextBridge to window object type
 declare global {
@@ -17,7 +18,9 @@ declare global {
 createRoot(document.getElementById('app')!).render(
   <Provider store={store}>
     <ThemeContainer>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </ThemeContainer>
   </Provider>,
 );
