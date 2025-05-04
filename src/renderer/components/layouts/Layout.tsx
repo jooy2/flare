@@ -8,6 +8,19 @@ import Header from '@/renderer/components/layouts/Header';
 import { headerArea } from '@/renderer/utils/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
+import { ReactNode } from 'react';
+
+type LayoutProps = {
+  title?: string;
+  titleTail?: string | null;
+  withTail?: boolean;
+  withPadding?: boolean;
+  header?: boolean;
+  container?: boolean;
+  center?: boolean;
+  withBackButton?: boolean;
+  children: ReactNode;
+};
 
 export default function Layout({
   title = 'Flare Player',
@@ -19,7 +32,7 @@ export default function Layout({
   withPadding = true,
   withBackButton = false,
   children,
-}) {
+}: LayoutProps) {
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
 
   return (

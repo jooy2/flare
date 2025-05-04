@@ -33,6 +33,7 @@ contextBridge.exposeInMainWorld('mainApi', {
       ipcRenderer.send.apply(null, [channel, ...data]);
     }
   },
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   receive: (channel: string, cbFunc: Function): void => {
     if (rendererAvailChannels.includes(channel)) {
       ipcRenderer.on(channel, (event, ...args) => cbFunc(event, ...args));

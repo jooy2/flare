@@ -1,12 +1,22 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "Preserve",
+    "moduleDetection": "force",
     "jsx": "preserve",
-    "moduleResolution": "node",
     "composite": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["package.json", "vite.config.ts", "src/main/**/*.ts", "src/main/**/*.d.ts"]
+  "include": [
+    "package.json",
+    "eslint.config.ts",
+    "vite.config.ts",
+    "src/main",
+    "src/preload",
+    "tests/**/*.ts",
+    "tests/**/*.mts",
+    "tests/**/*.spec.ts"
+  ]
 }

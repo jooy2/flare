@@ -1,4 +1,5 @@
 import { Page, _electron as electron } from 'playwright';
+// eslint-disable-next-line n/no-extraneous-import
 import { ElectronApplication } from 'playwright-core';
 import { test, expect } from '@playwright/test';
 

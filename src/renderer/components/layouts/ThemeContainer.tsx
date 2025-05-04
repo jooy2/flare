@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,7 +9,7 @@ import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material';
 
-export default function ThemeContainer({ children }) {
+export default function ThemeContainer({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

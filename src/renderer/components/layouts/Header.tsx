@@ -20,7 +20,15 @@ import ModalMetadata from '@/renderer/components/dialogs/ModalMetadata';
 import { buttonGroupButtonBase, marginRightXs } from '@/renderer/utils/styles';
 import { arrWithNumber } from '@/renderer/utils/helper';
 
-export default function Header({ title, withBackButton, withRefresh = false }) {
+export default function Header({
+  title,
+  withBackButton,
+  withRefresh = false,
+}: {
+  title: string;
+  withBackButton: boolean;
+  withRefresh?: boolean;
+}) {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();

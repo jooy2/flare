@@ -15,6 +15,13 @@ export default function ModalConfirm({
   onCancel,
   onClose,
   content,
+}: {
+  open?: boolean;
+  noCancel?: boolean;
+  onOk: () => void;
+  onCancel: () => void;
+  onClose: () => void;
+  content: string;
 }) {
   const [t] = useTranslation(['common', 'notice', 'menu']);
 

@@ -8,7 +8,6 @@ import { HelmetProvider } from 'react-helmet-async';
 
 // Add API key defined in contextBridge to window object type
 declare global {
-  // eslint-disable-next-line no-unused-vars
   interface Window {
     mainApi?: any;
     RufflePlayer?: any;

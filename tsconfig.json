@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "outDir": "./dist",
     "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react-jsx",
+    "module": "Preserve",
+    "moduleDetection": "force",
+    "jsx": "preserve",
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -17,9 +17,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable"]
+    "lib": ["esnext", "dom"]
   },
-  "include": ["src/renderer", "src/preload"],
+  "include": ["src/*.ts", "src/*.d.ts", "src/renderer"],
   "references": [
     {
       "path": "./tsconfig.node.json"

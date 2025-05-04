@@ -247,7 +247,6 @@ const startStaticServer = async (baseUrl: string): Promise<number | null> =>
 
       for (let i = 0; i < availPorts.length; i += 1) {
         try {
-          // eslint-disable-next-line no-await-in-loop
           const server: http.Server | null = await tryConnectStaticServer(availPorts[i], baseUrl);
 
           if (server) {
@@ -337,7 +336,7 @@ ipcMain.on('appendRecentFiles', (event, file) => {
     }
 
     store.set({ recentFiles });
-  } catch (e) {
+  } catch {
     store.set({
       recentFiles: [],
     });
