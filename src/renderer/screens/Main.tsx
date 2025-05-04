@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ import { css } from '@emotion/react';
 import Layout from '@/renderer/components/layouts/Layout';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import { loadingText } from '@/renderer/utils/styles';
-import useTheme from '@mui/material/styles/useTheme';
+import { useTheme } from '@mui/material';
 
 export default function Main() {
   const dispatch = useDispatch();

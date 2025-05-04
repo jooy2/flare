@@ -3,12 +3,11 @@ import { useEffect, useMemo } from 'react';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiThemeProvider from '@mui/material/styles/ThemeProvider';
-import createTheme from '@mui/material/styles/createTheme';
 import { Global, ThemeProvider, css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
+import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material';
 
 export default function ThemeContainer({ children }) {
   const dispatch = useDispatch();

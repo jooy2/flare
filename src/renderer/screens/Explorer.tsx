@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect, SetStateAction } from 'react';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -24,7 +24,7 @@ import { RootState } from '@/renderer/store';
 import Layout from '@/renderer/components/layouts/Layout';
 import { loadingText, paperSm } from '@/renderer/utils/styles';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
-import useTheme from '@mui/material/styles/useTheme';
+import { useTheme } from '@mui/material';
 
 export default function Explorer() {
   const dispatch = useDispatch();
