@@ -1,0 +1,25 @@
+{
+  "workbench.settings.useSplitJSON": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": false,
+  "eslint.codeActionsOnSave.rules": null,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript"],
+  "files.autoSave": "afterDelay",
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tabSize": 2,
+  "prettier.embeddedLanguageFormatting": "off",
+  "prettier.enable": true,
+  "files.associations": {
+    "*.mjs": "javascript",
+    "*.cjs": "javascript",
+    "*.mts": "typescript"
+  }
+}
