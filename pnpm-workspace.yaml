@@ -1,0 +1,5 @@
+onlyBuiltDependencies:
+  - '@swc/core'
+  - electron
+  - electron-winstaller
+  - esbuild
