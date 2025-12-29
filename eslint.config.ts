@@ -1,4 +1,4 @@
-import { globalIgnores } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import pluginJs from '@eslint/js';
 import pluginTypeScriptESLint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
@@ -11,10 +11,10 @@ import configPrettier from 'eslint-config-prettier';
 
 import globals from 'globals';
 
-export default pluginTypeScriptESLint.config(
+export default defineConfig(
   pluginReact.configs.flat.recommended,
   pluginJs.configs.recommended,
-  pluginReactHooks.configs['recommended-latest'],
+  pluginReactHooks.configs.flat.recommended,
   pluginTypeScriptESLint.configs.recommended,
   pluginImport.flatConfigs.electron,
   pluginJsxA11y.flatConfigs.recommended,
@@ -48,7 +48,6 @@ export default pluginTypeScriptESLint.config(
       },
       parserOptions: {
         parser: parserTypeScript,
-        ecmaVersion: 2022,
         ecmaFeatures: {
           jsx: true,
         },
@@ -71,6 +70,7 @@ export default pluginTypeScriptESLint.config(
         },
       ],
       'react-hooks/exhaustive-deps': 'off',
+      'react-hooks/preserve-manual-memoization': 'warn',
       'react/react-in-jsx-scope': 'off',
       'react/jsx-props-no-spreading': 'off',
       'react/no-unknown-property': ['error', { ignore: ['css'] }],
