@@ -1,4 +1,7 @@
 /** @jsxImportSource @emotion/react */
+// The Ruffle player is a custom element created by the Ruffle runtime and driven
+// imperatively, so it is mutated in place instead of being replaced through state.
+/* eslint-disable react-hooks/immutability, react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
@@ -198,13 +201,13 @@ export default function FlashPlayer({
         {stateAppScreen.appConfigShowPlayerController && (
           <Grid
             container
-            alignItems="center"
+            sx={{ alignItems: 'center' }}
             css={css`
               height: 42px;
             `}
           >
             <Grid size={12}>
-              <Grid container alignItems="center">
+              <Grid container sx={{ alignItems: 'center' }}>
                 <Grid>
                   <IconButton
                     color="primary"
@@ -228,7 +231,7 @@ export default function FlashPlayer({
                   </Tooltip>
                 </Grid>
                 <Grid size={{ xs: 6, md: 4 }}>
-                  <Stack spacing={2} direction="row" alignItems="center">
+                  <Stack spacing={2} direction="row" sx={{ alignItems: 'center' }}>
                     <IconButton size="small" aria-label="player-mute" onClick={handleMute}>
                       {stateAppScreen.flashVolume === 0 ? <VolumeOff /> : <VolumeUp />}
                     </IconButton>

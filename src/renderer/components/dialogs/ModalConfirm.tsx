@@ -33,8 +33,11 @@ export default function ModalConfirm({
     <Dialog
       css={userSelectNone}
       open={open}
-      onClose={handleDialogClose}
-      disableEscapeKeyDown
+      onClose={(_event, reason) => {
+        // `disableEscapeKeyDown` was removed in Material UI v9
+        if (reason === 'escapeKeyDown') return;
+        handleDialogClose();
+      }}
       aria-labelledby="alert-title"
       aria-describedby="alert-desc"
     >

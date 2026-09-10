@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import FileOpen from '@mui/icons-material/FileOpen';
-import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline';
+import PlayCircleOutlineOutlined from '@mui/icons-material/PlayCircleOutlineOutlined';
 import { css } from '@emotion/react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -152,9 +152,9 @@ export default function Explorer() {
                         text-align: center;
                         font-style: italic;
                         border-radius: 15px;
-                        border: ${stateAppScreen.isDarkTheme
-                          ? '3px dashed #fff'
-                          : '3px dashed #333'};
+                        border: ${
+                          stateAppScreen.isDarkTheme ? '3px dashed #fff' : '3px dashed #333'
+                        };
                         opacity: 0.8;
                         h2 {
                           margin: 10px 0;
@@ -181,7 +181,7 @@ export default function Explorer() {
               </Grid>
               <Grid size={12}>
                 <Paper css={paperSm}>
-                  <Grid container justifyContent="space-between">
+                  <Grid container sx={{ justifyContent: 'space-between' }}>
                     <Grid size={5}>
                       <Typography component="h2" variant="h6">
                         <strong>{t('common:recent-file-title')}</strong>
@@ -228,7 +228,7 @@ export default function Explorer() {
                                 onClick={(e) => handleClickRecentFile(e, val)}
                               >
                                 <ListItemIcon>
-                                  <PlayCircleOutline />
+                                  <PlayCircleOutlineOutlined />
                                 </ListItemIcon>
                                 <ListItemText primary={val} />
                               </ListItemButton>

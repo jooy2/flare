@@ -30,8 +30,11 @@ export default function ModalMetadata() {
     <Dialog
       css={userSelectNone}
       open={stateAppScreen.dialogMetadataOpen}
-      onClose={handleDialogClose}
-      disableEscapeKeyDown
+      onClose={(_event, reason) => {
+        // `disableEscapeKeyDown` was removed in Material UI v9
+        if (reason === 'escapeKeyDown') return;
+        handleDialogClose();
+      }}
       aria-labelledby="error-title"
       aria-describedby="error-desc"
     >

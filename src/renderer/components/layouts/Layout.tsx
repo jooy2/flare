@@ -68,7 +68,7 @@ export default function Layout({
           user-select: none;
           padding: ${withPadding ? '8px 0' : '0'};
         `}
-        alignItems={center ? 'center' : 'start'}
+        sx={{ alignItems: center ? 'center' : 'start' }}
       >
         {container ? (
           <Container>

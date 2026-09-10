@@ -9,7 +9,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import BarChart from '@mui/icons-material/BarChart';
-import HelpOutline from '@mui/icons-material/HelpOutline';
+import HelpOutlineOutlined from '@mui/icons-material/HelpOutlineOutlined';
 import Settings from '@mui/icons-material/Settings';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
@@ -128,7 +128,7 @@ export default function Header({
                 aria-label="open"
                 onClick={() => handleGoToLink('/about')}
               >
-                <HelpOutline fontSize="small" />
+                <HelpOutlineOutlined fontSize="small" />
               </Button>
               <Button
                 css={[buttonGroupButtonBase]}
