@@ -5,8 +5,6 @@ import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginNode from 'eslint-plugin-n';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
-import parserTypeScript from '@typescript-eslint/parser';
-import pluginImport from 'eslint-plugin-import';
 import configPrettier from 'eslint-config-prettier';
 
 import globals from 'globals';
@@ -16,7 +14,6 @@ export default defineConfig(
   pluginJs.configs.recommended,
   pluginReactHooks.configs.flat.recommended,
   pluginTypeScriptESLint.configs.recommended,
-  pluginImport.flatConfigs.electron,
   pluginJsxA11y.flatConfigs.recommended,
   pluginNode.configs['flat/recommended-script'],
   globalIgnores([
@@ -47,11 +44,9 @@ export default defineConfig(
         ...globals.node,
       },
       parserOptions: {
-        parser: parserTypeScript,
         ecmaFeatures: {
           jsx: true,
         },
-        requireConfigFile: false,
       },
     },
     rules: {

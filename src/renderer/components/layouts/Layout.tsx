@@ -1,6 +1,5 @@
-import { Helmet } from 'react-helmet-async';
 import { MPContainer } from 'material-plus-ui';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import Header from '@/renderer/components/layouts/Header';
 
 type LayoutProps = {
@@ -26,6 +25,12 @@ export default function Layout({
   withBackButton = false,
   children,
 }: LayoutProps) {
+  // The window title used to come from `react-helmet-async`. One window, one
+  // title, so the document is written to directly.
+  useEffect(() => {
+    document.title = `${title}${withTail && titleTail ? titleTail : ''}`;
+  }, [title, titleTail, withTail]);
+
   const bodyClassName = [
     'app-body',
     withPadding ? '' : 'app-body--flush',
@@ -39,13 +44,6 @@ export default function Layout({
 
   return (
     <div className="app-shell">
-      <Helmet>
-        <title>
-          {title}
-          {withTail ? titleTail : ''}
-        </title>
-        <script src="js/ruffle/ruffle.js" />
-      </Helmet>
       {header ? <Header title={title} withBackButton={withBackButton} /> : ''}
       <div className={bodyClassName}>
         {container ? (

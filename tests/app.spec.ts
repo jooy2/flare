@@ -1,7 +1,4 @@
-import { Page, _electron as electron } from 'playwright';
-// eslint-disable-next-line n/no-extraneous-import
-import { ElectronApplication } from 'playwright-core';
-import { test, expect } from '@playwright/test';
+import { ElectronApplication, Page, _electron as electron, expect, test } from '@playwright/test';
 
 let appWindow: Page;
 let appElectron: ElectronApplication;
