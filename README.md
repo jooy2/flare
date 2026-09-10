@@ -86,7 +86,7 @@ $ npm run build:linux
 - [TypeScript](https://typescriptlang.org)
 - [Electron](https://electronjs.org)
 - [React](https://react.dev)
-- [Material-UI](https://mui.com)
+- [Material Plus](https://material-plus.cdget.com)
 - [Ruffle](https://ruffle.rs)
 
 ## 📋 License
