@@ -138,6 +138,7 @@ body {
 
 .app-panel--about {
   text-align: center;
+  padding-block: 32px;
   max-height: 400px;
   overflow-y: auto;
 }
@@ -149,6 +150,13 @@ body {
 .app-header {
   user-select: none;
   background: var(--app-surface);
+}
+
+/* The brand slot is `shrink-0`, so the title has to be the part that grows if
+   the actions are to sit against the right edge. */
+.app-header .mp-header__brand {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .app-header__title {

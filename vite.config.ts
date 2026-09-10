@@ -8,6 +8,7 @@ import { builtinModules } from 'module';
 import { fileURLToPath } from 'url';
 import { rmSync } from 'fs';
 
+const projectRoot = dirname(fileURLToPath(import.meta.url));
 const isDevEnv = process.env.NODE_ENV === 'development';
 
 export default defineConfig(({ mode }) => {
@@ -27,7 +28,7 @@ export default defineConfig(({ mode }) => {
     {
       entry: 'src/main/index.ts',
       onstart({ startup }) {
-        startup();
+        startup(['.', '--no-sandbox'], { cwd: projectRoot });
       },
       vite: {
         root: resolve('.'),
@@ -70,7 +71,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
       alias: {
-        '@': resolve(dirname(fileURLToPath(import.meta.url)), 'src'),
+        '@': resolve(projectRoot, 'src'),
       },
     },
     base: './',

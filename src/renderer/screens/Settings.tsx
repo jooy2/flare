@@ -162,7 +162,7 @@ export default function Settings() {
   return (
     <Layout title={t('menu:settings') as string} withBackButton>
       <div className="app-scroll">
-        <MPCard className="app-panel" variant="elevated" elevation={1}>
+        <MPCard className="app-panel" variant="elevated" elevation={1} density={0}>
           <h2 className="app-settings__title">{t('menu:settings')}</h2>
           <span className="app-panel-header__desc">{t('settings-info')}</span>
           <div className="app-settings__group">

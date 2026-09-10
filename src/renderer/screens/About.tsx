@@ -16,7 +16,7 @@ export default function About() {
 
   return (
     <Layout title={t('about-title') as string} withBackButton>
-      <MPCard className="app-panel app-panel--about" variant="elevated" elevation={1}>
+      <MPCard className="app-panel app-panel--about" variant="elevated" elevation={1} density={0}>
         <img className="app-about__logo" draggable="false" alt="logo" src="images/app-logo.webp" />
         <MPTypography level="body">
           Flare Player {stateAppScreen.mainGlobalValues.APP_VERSION_NAME} By {author}

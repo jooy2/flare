@@ -124,7 +124,7 @@ export default function Explorer() {
       <div className="app-scroll">
         {!loading && (
           <>
-            <MPCard className="app-panel" variant="elevated" elevation={1}>
+            <MPCard className="app-panel" variant="elevated" elevation={1} density={0}>
               <div data-testid="uiFileOpen" {...getRootProps({ className: 'app-dropzone' })}>
                 <h2 className="app-dropzone__title">
                   <strong>{t('notice:drag-drop-execute')}</strong>
@@ -138,7 +138,7 @@ export default function Explorer() {
                 </MPAlert>
               )}
             </MPCard>
-            <MPCard className="app-panel" variant="elevated" elevation={1}>
+            <MPCard className="app-panel" variant="elevated" elevation={1} density={0}>
               <div className="app-recent__header">
                 <h2 className="app-panel__title">
                   <strong>{t('common:recent-file-title')}</strong>
