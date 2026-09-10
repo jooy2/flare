@@ -1,17 +1,10 @@
-/** @jsxImportSource @emotion/react */
 import { useMemo } from 'react';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import { MPButton, MPCard, MPIcon, MPTypography } from 'material-plus-ui';
+import { FileText, RefreshCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-import Article from '@mui/icons-material/Article';
-import Update from '@mui/icons-material/Update';
-import { css } from '@emotion/react';
 import Layout from '@/renderer/components/layouts/Layout';
 import { openExternalLink } from '@/renderer/utils/helper';
-import { paperBase } from '@/renderer/utils/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 
@@ -23,41 +16,33 @@ export default function About() {
 
   return (
     <Layout title={t('about-title') as string} withBackButton>
-      <Grid size={12}>
-        <Paper css={paperBase}>
-          <img
-            css={css`
-              max-width: 350px;
-              height: auto;
-            `}
-            draggable="false"
-            alt="logo"
-            src="images/app-logo.webp"
-          />
-          <Typography component="p" variant="body1">
-            Flare Player {stateAppScreen.mainGlobalValues.APP_VERSION_NAME} By {author}
-          </Typography>
-          <Typography component="p" variant="body1">
-            Flash Emulator Based on Ruffle (Nightly {ruffleVersion})
-          </Typography>
-          <Typography component="p" variant="body1">
-            <Button
-              startIcon={<Article />}
-              onClick={(ev) =>
-                openExternalLink(ev, 'https://github.com/ruffle-rs/ruffle/blob/master/LICENSE.md')
-              }
-            >
-              Ruffle LICENSE
-            </Button>
-            <Button
-              startIcon={<Update />}
-              onClick={(ev) => openExternalLink(ev, 'https://github.com/jooy2/flare/releases')}
-            >
-              {t('menu:update-check')}
-            </Button>
-          </Typography>
-        </Paper>
-      </Grid>
+      <MPCard className="app-panel app-panel--about" variant="elevated" elevation={1}>
+        <img className="app-about__logo" draggable="false" alt="logo" src="images/app-logo.webp" />
+        <MPTypography level="body">
+          Flare Player {stateAppScreen.mainGlobalValues.APP_VERSION_NAME} By {author}
+        </MPTypography>
+        <MPTypography level="body">
+          Flash Emulator Based on Ruffle (Nightly {ruffleVersion})
+        </MPTypography>
+        <div className="app-about__links">
+          <MPButton
+            variant="text"
+            startIcon={<MPIcon icon={FileText} size={18} />}
+            onClick={(ev) =>
+              openExternalLink(ev, 'https://github.com/ruffle-rs/ruffle/blob/master/LICENSE.md')
+            }
+          >
+            Ruffle LICENSE
+          </MPButton>
+          <MPButton
+            variant="text"
+            startIcon={<MPIcon icon={RefreshCw} size={18} />}
+            onClick={(ev) => openExternalLink(ev, 'https://github.com/jooy2/flare/releases')}
+          >
+            {t('menu:update-check')}
+          </MPButton>
+        </div>
+      </MPCard>
     </Layout>
   );
 }

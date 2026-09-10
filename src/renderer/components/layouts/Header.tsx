@@ -1,23 +1,11 @@
-/** @jsxImportSource @emotion/react */
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import ArrowBack from '@mui/icons-material/ArrowBack';
-import BarChart from '@mui/icons-material/BarChart';
-import HelpOutlineOutlined from '@mui/icons-material/HelpOutlineOutlined';
-import Settings from '@mui/icons-material/Settings';
+import { useMemo } from 'react';
+import { MPHeader, MPIcon, MPIconButton, MPSelect, MPTypography } from 'material-plus-ui';
+import { ArrowLeft, BarChart3, CircleHelp, Settings } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import ModalMetadata from '@/renderer/components/dialogs/ModalMetadata';
-import { buttonGroupButtonBase, marginRightXs } from '@/renderer/utils/styles';
 import { arrWithNumber } from '@/renderer/utils/helper';
 
 export default function Header({
@@ -33,6 +21,11 @@ export default function Header({
   const location = useLocation();
   const dispatch = useDispatch();
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
+  const playerVersionItems = useMemo(
+    () =>
+      arrWithNumber(0, 32).map((value) => ({ value, label: value === 0 ? 'Auto' : `${value}` })),
+    [],
+  );
 
   const handleGoToLink = (url) => {
     if (url === location.pathname) {
@@ -54,95 +47,78 @@ export default function Header({
     dispatch(setConfig({ dialogMetadataOpen: true }));
   };
 
-  const handleFlashEmulatePlayerVersionChange = (event) => {
-    dispatch(setConfig({ appConfigEmulatePlayerVersion: event.target.value }));
+  const handleFlashEmulatePlayerVersionChange = (value) => {
+    dispatch(setConfig({ appConfigEmulatePlayerVersion: Number(value) }));
   };
 
   return (
-    <AppBar
+    <MPHeader
+      className="app-header"
       position="fixed"
+      variant="filled"
+      size="xs"
       elevation={1}
-      css={css`
-        user-select: none;
-        background: ${stateAppScreen.isDarkTheme ? '#2c2c2c' : '#ffffff'};
-      `}
-    >
-      <Toolbar variant="dense">
-        {withBackButton && (
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleGoHome}
-            edge="start"
-            css={css`
-              margin-right: 5px;
-            `}
-          >
-            <ArrowBack />
-          </IconButton>
-        )}
-        <Typography
-          css={css`
-            flex-grow: 1;
-          `}
-          variant="body1"
-          noWrap
-        >
-          {title}
-        </Typography>
-        <ButtonGroup variant="text" disableRipple disableElevation>
+      maxWidth="none"
+      brand={
+        <>
+          {withBackButton && (
+            <MPIconButton
+              variant="text"
+              size="xs"
+              label="back"
+              onClick={handleGoHome}
+              icon={<MPIcon icon={ArrowLeft} size={18} />}
+            />
+          )}
+          <MPTypography className="app-header__title" level="body">
+            {title}
+          </MPTypography>
+        </>
+      }
+      actions={
+        <div className="app-header__actions">
           {location.pathname === '/player' && (
             <>
               {stateAppScreen.appConfigShowPlayerVersionSelect && (
-                <Select
-                  size="small"
-                  fullWidth
+                <MPSelect
+                  size="xs"
+                  name="playerVersion"
+                  id="player-version"
+                  items={playerVersionItems}
                   value={stateAppScreen.appConfigEmulatePlayerVersion}
-                  onChange={handleFlashEmulatePlayerVersionChange}
-                  inputProps={{
-                    name: 'playerVersion',
-                    id: 'player-version',
-                  }}
-                >
-                  {arrWithNumber(0, 32).map((value) => (
-                    <MenuItem key={value} value={value}>
-                      {value === 0 ? 'Auto' : value}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  onValueChange={handleFlashEmulatePlayerVersionChange}
+                />
               )}
-              <Button
-                css={[buttonGroupButtonBase]}
-                color="inherit"
+              <MPIconButton
+                variant="text"
+                size="xs"
+                label="metadata"
                 onClick={() => handleOpenMetadata()}
-              >
-                <BarChart fontSize="small" />
-              </Button>
+                icon={<MPIcon icon={BarChart3} size={18} />}
+              />
             </>
           )}
           {!withBackButton && (
             <>
-              <Button
-                css={[marginRightXs, buttonGroupButtonBase]}
-                color="inherit"
-                aria-label="open"
+              <MPIconButton
+                variant="text"
+                size="xs"
+                label="about"
                 onClick={() => handleGoToLink('/about')}
-              >
-                <HelpOutlineOutlined fontSize="small" />
-              </Button>
-              <Button
-                css={[buttonGroupButtonBase]}
-                color="inherit"
-                aria-label="open"
+                icon={<MPIcon icon={CircleHelp} size={18} />}
+              />
+              <MPIconButton
+                variant="text"
+                size="xs"
+                label="settings"
                 onClick={() => handleGoToLink('/settings')}
-              >
-                <Settings fontSize="small" />
-              </Button>
+                icon={<MPIcon icon={Settings} size={18} />}
+              />
             </>
           )}
-        </ButtonGroup>
-        <ModalMetadata />
-      </Toolbar>
-    </AppBar>
+          <ModalMetadata />
+        </div>
+      }
+    />
   );
 }

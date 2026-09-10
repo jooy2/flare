@@ -1,23 +1,13 @@
-/** @jsxImportSource @emotion/react */
 // The Ruffle player is a custom element created by the Ruffle runtime and driven
 // imperatively, so it is mutated in place instead of being replaced through state.
 /* eslint-disable react-hooks/immutability, react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from 'react';
-import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import Replay from '@mui/icons-material/Replay';
-import Slider from '@mui/material/Slider';
-import Stack from '@mui/material/Stack';
-import Pause from '@mui/icons-material/Pause';
-import PlayArrow from '@mui/icons-material/PlayArrow';
-import VolumeOff from '@mui/icons-material/VolumeOff';
-import VolumeUp from '@mui/icons-material/VolumeUp';
+import { MPIcon, MPIconButton, MPSlider, MPTooltip } from 'material-plus-ui';
+import { Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import ModalConfirm from '@/renderer/components/dialogs/ModalConfirm';
 
@@ -64,9 +54,10 @@ export default function FlashPlayer({
     }
   };
 
-  const handleVolumeSliderChange = (event, newValue) => {
-    rufflePlayer.volume = newValue / 100;
-    dispatch(setConfig({ flashVolume: newValue }));
+  const handleVolumeSliderChange = (newValue) => {
+    const volume = Array.isArray(newValue) ? newValue[0] : newValue;
+    rufflePlayer.volume = volume / 100;
+    dispatch(setConfig({ flashVolume: volume }));
   };
 
   const handleBack = () => {
@@ -166,87 +157,50 @@ export default function FlashPlayer({
 
   return (
     <>
-      <div
-        css={css`
-          height: ${header ? 'calc(100vh - 40px)' : '100vh'};
-        `}
-      >
+      <div style={{ height: header ? 'calc(100vh - 40px)' : '100vh' }}>
         <div
           id="main"
-          css={css`
-            align-items: stretch;
-            width: 100%;
-            height: calc(100% - ${stateAppScreen.appConfigShowPlayerController ? 42 : 0}px);
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #000000;
-            color: white;
-            #player {
-              width: 100%;
-              height: 100%;
-              display: block;
-            }
-            #container {
-              margin: 10px;
-              width: 100%;
-              height: 100%;
-              align-self: center;
-            }
-          `}
+          className="app-player__stage"
+          style={{
+            height: `calc(100% - ${stateAppScreen.appConfigShowPlayerController ? 42 : 0}px)`,
+          }}
           ref={player}
           onContextMenu={(e) => e.preventDefault()}
         />
         {stateAppScreen.appConfigShowPlayerController && (
-          <Grid
-            container
-            sx={{ alignItems: 'center' }}
-            css={css`
-              height: 42px;
-            `}
-          >
-            <Grid size={12}>
-              <Grid container sx={{ alignItems: 'center' }}>
-                <Grid>
-                  <IconButton
-                    color="primary"
-                    size="small"
-                    aria-label="player-pause-and-play"
-                    onClick={handlePauseOrPlay}
-                  >
-                    {rufflePlayer?.isPlaying ? <Pause /> : <PlayArrow />}
-                  </IconButton>
-                </Grid>
-                <Grid>
-                  <Tooltip title={t('replay')}>
-                    <IconButton
-                      size="small"
-                      aria-label="player-replay"
-                      component="span"
-                      onClick={loadFlash}
-                    >
-                      <Replay />
-                    </IconButton>
-                  </Tooltip>
-                </Grid>
-                <Grid size={{ xs: 6, md: 4 }}>
-                  <Stack spacing={2} direction="row" sx={{ alignItems: 'center' }}>
-                    <IconButton size="small" aria-label="player-mute" onClick={handleMute}>
-                      {stateAppScreen.flashVolume === 0 ? <VolumeOff /> : <VolumeUp />}
-                    </IconButton>
-                    <Slider
-                      value={stateAppScreen.flashVolume}
-                      defaultValue={100}
-                      onChange={handleVolumeSliderChange}
-                      valueLabelDisplay="off"
-                      aria-labelledby="player-volume"
-                    />
-                  </Stack>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          <div className="app-player__controller">
+            <MPIconButton
+              variant="text"
+              color="primary"
+              label="player-pause-and-play"
+              onClick={handlePauseOrPlay}
+              icon={<MPIcon icon={rufflePlayer?.isPlaying ? Pause : Play} size={18} />}
+            />
+            <MPTooltip content={t('replay')}>
+              <MPIconButton
+                variant="text"
+                label="player-replay"
+                onClick={loadFlash}
+                icon={<MPIcon icon={RotateCcw} size={18} />}
+              />
+            </MPTooltip>
+            <div className="app-player__volume">
+              <MPIconButton
+                variant="text"
+                label="player-mute"
+                onClick={handleMute}
+                icon={
+                  <MPIcon icon={stateAppScreen.flashVolume === 0 ? VolumeX : Volume2} size={18} />
+                }
+              />
+              <MPSlider
+                className="app-player__volume-slider"
+                aria-label="player-volume"
+                value={stateAppScreen.flashVolume}
+                onValueChange={handleVolumeSliderChange}
+              />
+            </div>
+          </div>
         )}
       </div>
       <ModalConfirm

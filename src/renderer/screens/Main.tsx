@@ -1,25 +1,18 @@
-/** @jsxImportSource @emotion/react */
 import { useEffect, useState } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { MPProgressCircular, MPTypography } from 'material-plus-ui';
+import { useMPMediaQuery } from 'material-plus-ui/hooks';
 import { useTranslation } from 'react-i18next';
 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { css } from '@emotion/react';
 import Layout from '@/renderer/components/layouts/Layout';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
-import { loadingText } from '@/renderer/utils/styles';
-import { useTheme } from '@mui/material';
 
 export default function Main() {
   const dispatch = useDispatch();
-  const theme = useTheme();
   const [t, i18n] = useTranslation(['common']);
   const [loadMsg, setLoadMsg] = useState(1);
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMPMediaQuery('(prefers-color-scheme: dark)');
   const navigate = useNavigate();
 
   const handleVersionCheck = async () => true; // TODO version check
@@ -140,17 +133,12 @@ export default function Main() {
 
   return (
     <Layout center header={false}>
-      <Grid
-        size={12}
-        css={css`
-          text-align: center;
-        `}
-      >
-        <CircularProgress size={80} thickness={6} />
-        <Typography component="p" css={loadingText(theme)}>
+      <div className="app-loading">
+        <MPProgressCircular size="xl" />
+        <MPTypography className="app-loading__text" level="body">
           <strong>{t('loading')}</strong> ({t(`loading-${loadMsg}`)})
-        </Typography>
-      </Grid>
+        </MPTypography>
+      </div>
     </Layout>
   );
 }

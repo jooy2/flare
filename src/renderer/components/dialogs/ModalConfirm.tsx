@@ -1,12 +1,5 @@
-/** @jsxImportSource @emotion/react */
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import { MPButton, MPDialog } from 'material-plus-ui';
 import { useTranslation } from 'react-i18next';
-
-import { userSelectNone } from '@/renderer/utils/styles';
 
 export default function ModalConfirm({
   open = false,
@@ -25,31 +18,29 @@ export default function ModalConfirm({
 }) {
   const [t] = useTranslation(['common', 'notice', 'menu']);
 
-  const handleDialogClose = () => {
-    onClose();
-  };
-
   return (
-    <Dialog
-      css={userSelectNone}
+    <MPDialog
       open={open}
-      onClose={(_event, reason) => {
-        // `disableEscapeKeyDown` was removed in Material UI v9
-        if (reason === 'escapeKeyDown') return;
-        handleDialogClose();
+      // The escape key used to be disabled outright; a dismissal now has to go
+      // through the buttons instead.
+      dismissible={false}
+      showClose={false}
+      onOpenChange={(next) => {
+        if (!next) onClose();
       }}
-      aria-labelledby="alert-title"
-      aria-describedby="alert-desc"
-    >
-      <DialogContent>
-        <DialogContentText id="alert-desc">{content}</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        {!noCancel && <Button onClick={onCancel}>{t('menu:cancel')}</Button>}
-        <Button variant="contained" color="primary" onClick={onOk}>
-          {t('menu:ok')}
-        </Button>
-      </DialogActions>
-    </Dialog>
+      description={content}
+      actions={
+        <>
+          {!noCancel && (
+            <MPButton variant="text" onClick={onCancel}>
+              {t('menu:cancel')}
+            </MPButton>
+          )}
+          <MPButton variant="filled" color="primary" onClick={onOk}>
+            {t('menu:ok')}
+          </MPButton>
+        </>
+      }
+    />
   );
 }

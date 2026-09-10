@@ -1,0 +1,320 @@
+@import 'material-plus-ui/styles.css';
+
+/*
+ * Material Plus ships no reset and no page-level styling, so the few rules the
+ * application used to get from `CssBaseline` live here. Everything below the
+ * reset is either a colour the app picks itself or a layout the components do
+ * not cover.
+ */
+
+:root {
+  --mp-source-color: #ff9014;
+  --app-page-background: #eaeaea;
+  --app-surface: #ffffff;
+  --app-scrollbar-thumb: #a7a7a7;
+  --app-text-subtle: #4f4f4f;
+  --app-dropzone-border: #333333;
+
+  /*
+   * Material Plus tints every surface with the source colour. Flare's panels
+   * have always been neutral, so the surface roles are pinned and only the
+   * accent roles are left to the generated scheme.
+   */
+  --mp-sys-color-surface: #ffffff;
+  --mp-sys-color-surface-container-low: #ffffff;
+  --mp-sys-color-surface-container: #f4f4f4;
+  --mp-sys-color-surface-container-high: #ffffff;
+  --mp-sys-color-surface-container-highest: #ededed;
+}
+
+[data-mp-scheme='dark'] {
+  --mp-source-color: #ff5e47;
+  --app-page-background: #1a1a1a;
+  --app-surface: #2c2c2c;
+  --app-scrollbar-thumb: #444444;
+  --app-text-subtle: #efefef;
+  --app-dropzone-border: #ffffff;
+
+  --mp-sys-color-surface: #2c2c2c;
+  --mp-sys-color-surface-container-low: #2c2c2c;
+  --mp-sys-color-surface-container: #333333;
+  --mp-sys-color-surface-container-high: #2c2c2c;
+  --mp-sys-color-surface-container-highest: #3a3a3a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+/*
+ * Material Plus ships no reset, so the browser's own control chrome — the
+ * `2px outset` border Chromium puts on every button and input — has to be
+ * cleared here. Element selectors lose to the library's own classes, so a
+ * component that wants a border still gets one.
+ */
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: transparent;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--app-page-background);
+  color: var(--color-mp-on-surface);
+}
+
+.app-shell {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+
+.app-shell *::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+.app-shell *::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgb(0 0 0 / 0%);
+}
+
+.app-shell *::-webkit-scrollbar-thumb {
+  background-color: var(--app-scrollbar-thumb);
+}
+
+.app-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 8px 0;
+  background: var(--app-page-background);
+  user-select: none;
+}
+
+.app-body--flush {
+  padding: 0;
+}
+
+.app-body--center {
+  justify-content: center;
+}
+
+.app-content {
+  width: 100%;
+}
+
+.app-content--below-header {
+  margin-top: 42px;
+  flex-shrink: 0;
+}
+
+.app-scroll {
+  max-height: calc(100vh - 68px);
+  overflow-y: auto;
+}
+
+.app-panel {
+  margin-bottom: 16px;
+}
+
+.app-panel--about {
+  text-align: center;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.app-panel--about p {
+  font-size: 1.05em;
+}
+
+.app-header {
+  user-select: none;
+  background: var(--app-surface);
+}
+
+.app-header__title {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.app-loading {
+  text-align: center;
+}
+
+.app-loading__text {
+  font-size: 1.1em;
+  margin-top: 20px;
+  color: var(--app-text-subtle);
+}
+
+.app-dropzone {
+  cursor: pointer;
+  user-select: none;
+  padding: 40px 35px;
+  min-height: 130px;
+  text-align: center;
+  font-style: italic;
+  border-radius: 15px;
+  border: 3px dashed var(--app-dropzone-border);
+  opacity: 0.8;
+}
+
+.app-dropzone:hover {
+  opacity: 0.6;
+}
+
+.app-dropzone__title {
+  margin: 10px 0;
+  font-size: 1.1em;
+  font-weight: 400;
+}
+
+.app-recent__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-recent__list .mp-list-item__label {
+  font-size: 0.8em;
+  max-width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-about__logo {
+  max-width: 350px;
+  height: auto;
+}
+
+.app-about__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.app-settings__group {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.app-settings__checks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.app-settings__control {
+  margin-top: 8px;
+  max-width: 450px;
+}
+
+.app-panel-header__title {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.app-panel-header__desc {
+  display: block;
+  font-size: 0.85em;
+  color: var(--app-text-subtle);
+}
+
+.app-player__controller {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 42px;
+  padding: 0 8px;
+}
+
+.app-player__volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 180px;
+}
+
+.app-player__volume-slider {
+  flex-grow: 1;
+}
+
+.app-metadata .mp-data-list__label {
+  font-weight: bold;
+}
+
+.app-player__stage {
+  align-items: stretch;
+  width: 100%;
+  background: #000000;
+  color: #ffffff;
+}
+
+.app-player__stage #player {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.app-player__stage #container {
+  margin: 10px;
+  width: 100%;
+  height: 100%;
+  align-self: center;
+}
+
+/* The application's header row is 42px tall, which `.app-content--below-header`
+   offsets against; Material Plus sizes its own bar taller than that. */
+.app-header > div {
+  min-height: 42px;
+}
+
+.app-panel__title {
+  margin: 0;
+  font-size: 1.15em;
+}
+
+.app-settings__title {
+  margin: 0;
+  font-size: 1.6em;
+  font-weight: 400;
+}
+
+/* Material UI's `Container` used wider gutters than the Material Plus default. */
+.app-body .mp-container {
+  padding-inline: 16px;
+}

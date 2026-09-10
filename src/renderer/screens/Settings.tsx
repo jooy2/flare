@@ -1,26 +1,16 @@
-/** @jsxImportSource @emotion/react */
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { MPButton, MPCard, MPCheckbox, MPRadio, MPRadioGroup, MPSelect } from 'material-plus-ui';
+import { useMPMediaQuery } from 'material-plus-ui/hooks';
 import { useTranslation } from 'react-i18next';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { css } from '@emotion/react';
 import { RootState } from '@/renderer/store';
 import Layout from '@/renderer/components/layouts/Layout';
-import { marginTopSm } from '@/renderer/utils/styles';
 import PanelHeader from '@/renderer/components/views/PanelHeader';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 import ModalLocalStorageView from '../components/dialogs/ModalLocalStorageView';
+
+const LANGUAGES = ['auto', 'ko', 'en', 'es', 'pt', 'de', 'fr', 'ja'];
 
 export default function Settings() {
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
@@ -50,11 +40,10 @@ export default function Settings() {
   const [adjustOriginalSizeChecked, setAdjustOriginalSizeChecked] = useState(
     stateAppScreen.appConfigAdjustOriginalSize,
   );
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMPMediaQuery('(prefers-color-scheme: dark)');
 
-  const handleRadioChange = (event): void => {
-    const { value } = event.target;
-    switch (event.target.name) {
+  const handleRadioChange = (name: string, value: string): void => {
+    switch (name) {
       case 'themeCheck':
         setThemeCheck(value);
         window.mainApi.send('setAppConfig', { theme: value });
@@ -85,10 +74,8 @@ export default function Settings() {
     }
   };
 
-  const handleCheckboxChange = (event): void => {
-    const value = event.target.checked;
-
-    switch (event.target.name) {
+  const handleCheckboxChange = (name: string, value: boolean): void => {
+    switch (name) {
       case 'hideHeaderChecked':
         setHideHeaderChecked(value);
         window.mainApi.send('setAppConfig', { hideHeader: value });
@@ -129,18 +116,12 @@ export default function Settings() {
     }
   };
 
-  const handleSelectChange = async (event): Promise<void> => {
-    const { value } = event.target;
-    switch (event.target.name) {
-      case 'language':
-        setLanguage(value);
-        window.mainApi.send('setAppConfig', { language: value });
-        dispatch(setConfig({ appConfigLanguage: value }));
-        await i18n.changeLanguage(value);
-        break;
-      default:
-        break;
-    }
+  const handleSelectChange = async (value): Promise<void> => {
+    const next = String(value);
+    setLanguage(next);
+    window.mainApi.send('setAppConfig', { language: next });
+    dispatch(setConfig({ appConfigLanguage: next }));
+    await i18n.changeLanguage(next);
   };
 
   const handleReset = (ev): void => {
@@ -152,313 +133,157 @@ export default function Settings() {
     dispatch(setConfig({ dialogLocalStorageViewOpen: true }));
   };
 
+  const checkboxes = [
+    {
+      name: 'showPlayerControllerChecked',
+      checked: showPlayerControllerChecked,
+      label: 'menu:show-player-controller',
+    },
+    { name: 'hideHeaderChecked', checked: hideHeaderChecked, label: 'menu:hide-header' },
+    { name: 'letterboxChecked', checked: letterboxChecked, label: 'menu:letterbox' },
+    { name: 'hideContextChecked', checked: hideContextChecked, label: 'menu:hide-context' },
+    {
+      name: 'adjustOriginalSizeChecked',
+      checked: adjustOriginalSizeChecked,
+      label: 'menu:adjust-original-size',
+    },
+    {
+      name: 'showPlayerVersionSelectChecked',
+      checked: showPlayerVersionSelectChecked,
+      label: 'menu:show-player-version-select',
+    },
+    {
+      name: 'restoreWindowBoundsChecked',
+      checked: restoreWindowBoundsChecked,
+      label: 'menu:restore-bounds',
+    },
+  ];
+
   return (
     <Layout title={t('menu:settings') as string} withBackButton>
-      <Grid
-        size={12}
-        css={css`
-          max-height: calc(100vh - 68px);
-          overflow-y: auto;
-          span {
-            font-size: 0.95em;
-            color: ${stateAppScreen.isDarkTheme ? '#efefef' : '#4f4f4f'};
-          }
-        `}
-      >
-        <Paper
-          css={css`
-            padding: 16px;
-          `}
-        >
-          <Typography component="h2" variant="h4">
-            {t('menu:settings')}
-          </Typography>
-          <Typography component="span">{t('settings-info')}</Typography>
-          <Grid
-            container
-            spacing={3}
-            css={css`
-              margin-top: 24px;
-              h3 {
-                font-size: 1.2em;
-                font-weight: bold;
-              }
-              button > span {
-                color: #1c1c1c;
-              }
-              span {
-                font-size: 0.75em;
-                color: ${stateAppScreen.isDarkTheme ? '#efefef' : '#4f4f4f'};
-              }
-              .MuiInputBase-fullWidth {
-                max-width: 450px;
-              }
-            `}
-          >
-            <Grid size={12}>
+      <div className="app-scroll">
+        <MPCard className="app-panel" variant="elevated" elevation={1}>
+          <h2 className="app-settings__title">{t('menu:settings')}</h2>
+          <span className="app-panel-header__desc">{t('settings-info')}</span>
+          <div className="app-settings__group">
+            <div>
               <PanelHeader
                 title={t('settings-language-title')}
                 desc={t('settings-language-desc')}
               />
-              <Typography component="div">
-                <Select
-                  size="small"
+              <div className="app-settings__control">
+                <MPSelect
                   fullWidth
+                  name="language"
+                  id="system-language"
+                  items={LANGUAGES.map((value) => ({
+                    value,
+                    label: t(`menu:language-${value}`),
+                  }))}
                   value={language}
-                  onChange={handleSelectChange}
-                  inputProps={{
-                    name: 'language',
-                    id: 'system-language',
-                  }}
-                >
-                  {['auto', 'ko', 'en', 'es', 'pt', 'de', 'fr', 'ja'].map((value) => (
-                    <MenuItem key={value} value={value}>
-                      {t(`menu:language-${value}`)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Typography>
-            </Grid>
-            <Grid size={12} css={marginTopSm}>
+                  onValueChange={handleSelectChange}
+                />
+              </div>
+            </div>
+            <div>
               <PanelHeader title={t('settings-title-2')} desc={t('settings-desc-2')} />
-              <RadioGroup
-                row
+              <MPRadioGroup
+                className="app-settings__control"
+                orientation="horizontal"
                 aria-label="theme"
                 name="themeCheck"
                 value={themeCheck}
-                defaultValue="light"
-                onChange={handleRadioChange}
+                onValueChange={(value) => handleRadioChange('themeCheck', value)}
               >
-                <FormControlLabel
-                  value="auto"
-                  control={<Radio size="small" />}
-                  label={t('menu:theme-auto')}
-                />
-                <FormControlLabel
-                  value="light"
-                  control={<Radio size="small" />}
-                  label={t('menu:theme-light')}
-                />
-                <FormControlLabel
-                  value="dark"
-                  control={<Radio size="small" />}
-                  label={t('menu:theme-dark')}
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid size={12} css={marginTopSm}>
+                <MPRadio value="auto" label={t('menu:theme-auto')} />
+                <MPRadio value="light" label={t('menu:theme-light')} />
+                <MPRadio value="dark" label={t('menu:theme-dark')} />
+              </MPRadioGroup>
+            </div>
+            <div>
               <PanelHeader title={t('settings-title-1')} desc={t('settings-desc-1')} />
-              <Grid container>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={showPlayerControllerChecked}
-                        onChange={handleCheckboxChange}
-                        name="showPlayerControllerChecked"
-                      />
-                    }
-                    label={t('menu:show-player-controller')}
+              <div className="app-settings__checks">
+                {checkboxes.map((item) => (
+                  <MPCheckbox
+                    key={item.name}
+                    name={item.name}
+                    checked={item.checked}
+                    onCheckedChange={(value) => handleCheckboxChange(item.name, value)}
+                    label={t(item.label)}
                   />
-                </Grid>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={hideHeaderChecked}
-                        onChange={handleCheckboxChange}
-                        name="hideHeaderChecked"
-                      />
-                    }
-                    label={t('menu:hide-header')}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={letterboxChecked}
-                        onChange={handleCheckboxChange}
-                        name="letterboxChecked"
-                      />
-                    }
-                    label={t('menu:letterbox')}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={hideContextChecked}
-                        onChange={handleCheckboxChange}
-                        name="hideContextChecked"
-                      />
-                    }
-                    label={t('menu:hide-context')}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={adjustOriginalSizeChecked}
-                        onChange={handleCheckboxChange}
-                        name="adjustOriginalSizeChecked"
-                      />
-                    }
-                    label={t('menu:adjust-original-size')}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={showPlayerVersionSelectChecked}
-                        onChange={handleCheckboxChange}
-                        name="showPlayerVersionSelectChecked"
-                      />
-                    }
-                    label={t('menu:show-player-version-select')}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        checked={restoreWindowBoundsChecked}
-                        onChange={handleCheckboxChange}
-                        name="restoreWindowBoundsChecked"
-                      />
-                    }
-                    label={t('menu:restore-bounds')}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid size={12} css={marginTopSm}>
+                ))}
+              </div>
+            </div>
+            <div>
               <PanelHeader title={t('settings-title-3')} desc={t('settings-desc-3')} />
-              <RadioGroup
-                aria-label="position"
+              <MPRadioGroup
+                className="app-settings__control"
+                aria-label="renderer"
                 name="preferredRendererCheck"
                 value={preferredRendererCheck}
-                defaultValue="auto"
-                onChange={handleRadioChange}
+                onValueChange={(value) => handleRadioChange('preferredRendererCheck', value)}
               >
-                <FormControlLabel
-                  value="auto"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:renderer-auto')}
-                />
-                <FormControlLabel
-                  value="wgpu-webgl"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:renderer-wgpu-webgl')}
-                />
-                <FormControlLabel
-                  value="webgl"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:renderer-webgl')}
-                />
-                <FormControlLabel
-                  value="canvas"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:renderer-canvas')}
-                />
-                <FormControlLabel
-                  value="webgpu"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:renderer-webgpu')}
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid size={12} css={marginTopSm}>
+                <MPRadio value="auto" label={t('menu:renderer-auto')} />
+                <MPRadio value="wgpu-webgl" label={t('menu:renderer-wgpu-webgl')} />
+                <MPRadio value="webgl" label={t('menu:renderer-webgl')} />
+                <MPRadio value="canvas" label={t('menu:renderer-canvas')} />
+                <MPRadio value="webgpu" label={t('menu:renderer-webgpu')} />
+              </MPRadioGroup>
+            </div>
+            <div>
               <PanelHeader title={t('settings-title-4')} desc={t('settings-desc-4')} />
-              <RadioGroup
-                row
-                aria-label="position"
+              <MPRadioGroup
+                className="app-settings__control"
+                orientation="horizontal"
+                aria-label="quality"
                 name="qualityCheck"
                 value={qualityCheck}
-                defaultValue="high"
-                onChange={handleRadioChange}
+                onValueChange={(value) => handleRadioChange('qualityCheck', value)}
               >
-                <FormControlLabel
-                  value="low"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:quality-low')}
-                />
-                <FormControlLabel
-                  value="medium"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:quality-medium')}
-                />
-                <FormControlLabel
-                  value="high"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:quality-high')}
-                />
-                <FormControlLabel
-                  value="best"
-                  control={<Radio size="small" color="primary" />}
-                  label={t('menu:quality-best')}
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid size={12} css={marginTopSm}>
+                <MPRadio value="low" label={t('menu:quality-low')} />
+                <MPRadio value="medium" label={t('menu:quality-medium')} />
+                <MPRadio value="high" label={t('menu:quality-high')} />
+                <MPRadio value="best" label={t('menu:quality-best')} />
+              </MPRadioGroup>
+            </div>
+            <div>
               <PanelHeader title={t('settings-title-5')} desc={t('settings-desc-5')} />
-              <RadioGroup
-                row
-                aria-label="position"
+              <MPRadioGroup
+                className="app-settings__control"
+                orientation="horizontal"
+                aria-label="player runtime"
                 name="playerRuntimeCheck"
                 value={playerRuntimeCheck}
-                defaultValue="flashPlayer"
-                onChange={handleRadioChange}
+                onValueChange={(value) => handleRadioChange('playerRuntimeCheck', value)}
               >
-                <FormControlLabel
-                  value="flashPlayer"
-                  control={<Radio size="small" color="primary" />}
-                  label="Adobe Flash Player"
-                />
-                <FormControlLabel
-                  value="air"
-                  control={<Radio size="small" color="primary" />}
-                  label="Adobe AIR"
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid size={12}>
+                <MPRadio value="flashPlayer" label="Adobe Flash Player" />
+                <MPRadio value="air" label="Adobe AIR" />
+              </MPRadioGroup>
+            </div>
+            <div>
               <PanelHeader title={t('settings-other-title')} desc={t('settings-other-desc')} />
-              <Grid container>
-                <Grid size={12}>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleOpenLocalStorageViewModal()}
-                  >
-                    {t('menu:manage-data')}
-                  </Button>
-                  <ModalLocalStorageView />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid size={12} css={marginTopSm}>
+              <div className="app-settings__control">
+                <MPButton
+                  color="primary"
+                  variant="filled"
+                  onClick={() => handleOpenLocalStorageViewModal()}
+                >
+                  {t('menu:manage-data')}
+                </MPButton>
+                <ModalLocalStorageView />
+              </div>
+            </div>
+            <div>
               <PanelHeader title={t('settings-reset-title')} desc={t('settings-reset-desc')} />
-              <Typography component="div" css={marginTopSm}>
-                <Button variant="contained" size="small" color="secondary" onClick={handleReset}>
+              <div className="app-settings__control">
+                <MPButton variant="filled" color="secondary" onClick={handleReset}>
                   {t('menu:reset-and-restart')}
-                </Button>
-              </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
+                </MPButton>
+              </div>
+            </div>
+          </div>
+        </MPCard>
+      </div>
     </Layout>
   );
 }

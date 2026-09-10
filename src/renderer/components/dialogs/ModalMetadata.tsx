@@ -1,19 +1,7 @@
-/** @jsxImportSource @emotion/react */
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
+import { MPButton, MPDataList, MPDataListItem, MPDialog } from 'material-plus-ui';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
 
-import { userSelectNone } from '@/renderer/utils/styles';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
 
@@ -27,53 +15,33 @@ export default function ModalMetadata() {
   };
 
   return (
-    <Dialog
-      css={userSelectNone}
+    <MPDialog
       open={stateAppScreen.dialogMetadataOpen}
-      onClose={(_event, reason) => {
-        // `disableEscapeKeyDown` was removed in Material UI v9
-        if (reason === 'escapeKeyDown') return;
-        handleDialogClose();
+      dismissible={false}
+      showClose={false}
+      onOpenChange={(next) => {
+        if (!next) handleDialogClose();
       }}
-      aria-labelledby="error-title"
-      aria-describedby="error-desc"
-    >
-      <DialogContent>
-        <TableContainer component={Paper}>
-          <Table size="small" aria-label="a dense table">
-            <TableBody>
-              {[
-                { name: 'SWF Version', value: stateAppScreen.flashFileSwfVer },
-                { name: 'Total Frame', value: stateAppScreen.flashFileFrame },
-                { name: 'SWF Frame Rate', value: stateAppScreen.flashFileFrameRate },
-                { name: 'SWF Width', value: stateAppScreen.flashFileWidth },
-                { name: 'SWF Height', value: stateAppScreen.flashFileHeight },
-                { name: 'SWF Background Color', value: stateAppScreen.flashFileBackgroundColor },
-              ].map((row) => (
-                <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    css={css`
-                      background: #525252;
-                      color: white;
-                      font-weight: bold;
-                    `}
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.value}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleDialogClose} color="primary">
+      actions={
+        <MPButton variant="text" color="primary" onClick={handleDialogClose}>
           {t('menu:close')}
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </MPButton>
+      }
+    >
+      <MPDataList className="app-metadata" orientation="horizontal" labelWidth={180} dividers>
+        {[
+          { name: 'SWF Version', value: stateAppScreen.flashFileSwfVer },
+          { name: 'Total Frame', value: stateAppScreen.flashFileFrame },
+          { name: 'SWF Frame Rate', value: stateAppScreen.flashFileFrameRate },
+          { name: 'SWF Width', value: stateAppScreen.flashFileWidth },
+          { name: 'SWF Height', value: stateAppScreen.flashFileHeight },
+          { name: 'SWF Background Color', value: stateAppScreen.flashFileBackgroundColor },
+        ].map((row) => (
+          <MPDataListItem key={row.name} label={row.name}>
+            {row.value}
+          </MPDataListItem>
+        ))}
+      </MPDataList>
+    </MPDialog>
   );
 }
