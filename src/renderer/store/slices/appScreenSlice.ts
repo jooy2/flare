@@ -45,6 +45,8 @@ export interface AppScreenState {
   mainGlobalValues: GlobalValues;
   dialogMetadataOpen: boolean;
   dialogLocalStorageViewOpen: boolean;
+  dialogSettingsOpen: boolean;
+  dialogAboutOpen: boolean;
 }
 
 const initialState: AppScreenState = {
@@ -89,6 +91,8 @@ const initialState: AppScreenState = {
   },
   dialogMetadataOpen: false,
   dialogLocalStorageViewOpen: false,
+  dialogSettingsOpen: false,
+  dialogAboutOpen: false,
 };
 
 export const appScreenSlice = createSlice({

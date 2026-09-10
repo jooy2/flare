@@ -5,17 +5,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
+import ModalAbout from '@/renderer/components/dialogs/ModalAbout';
 import ModalMetadata from '@/renderer/components/dialogs/ModalMetadata';
+import ModalSettings from '@/renderer/components/dialogs/ModalSettings';
 import { arrWithNumber } from '@/renderer/utils/helper';
 
 export default function Header({
   title,
   withBackButton,
-  withRefresh = false,
 }: {
   title: string;
   withBackButton: boolean;
-  withRefresh?: boolean;
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,13 +26,6 @@ export default function Header({
       arrWithNumber(0, 32).map((value) => ({ value, label: value === 0 ? 'Auto' : `${value}` })),
     [],
   );
-
-  const handleGoToLink = (url) => {
-    if (url === location.pathname) {
-      if (!withRefresh) return;
-      navigate(url);
-    } else navigate(url);
-  };
 
   const handleGoHome = (e) => {
     if (e) e.preventDefault();
@@ -45,6 +38,14 @@ export default function Header({
 
   const handleOpenMetadata = () => {
     dispatch(setConfig({ dialogMetadataOpen: true }));
+  };
+
+  const handleOpenAbout = () => {
+    dispatch(setConfig({ dialogAboutOpen: true }));
+  };
+
+  const handleOpenSettings = () => {
+    dispatch(setConfig({ dialogSettingsOpen: true }));
   };
 
   const handleFlashEmulatePlayerVersionChange = (value) => {
@@ -104,19 +105,21 @@ export default function Header({
                 variant="text"
                 size="xs"
                 label="about"
-                onClick={() => handleGoToLink('/about')}
+                onClick={handleOpenAbout}
                 icon={<MPIcon icon={CircleHelp} size={18} />}
               />
               <MPIconButton
                 variant="text"
                 size="xs"
                 label="settings"
-                onClick={() => handleGoToLink('/settings')}
+                onClick={handleOpenSettings}
                 icon={<MPIcon icon={Settings} size={18} />}
               />
             </>
           )}
           <ModalMetadata />
+          <ModalAbout />
+          <ModalSettings />
         </div>
       }
     />

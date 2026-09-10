@@ -136,14 +136,11 @@ body {
   margin-bottom: 16px;
 }
 
-.app-panel--about {
+.app-about {
   text-align: center;
-  padding-block: 32px;
-  max-height: 400px;
-  overflow-y: auto;
 }
 
-.app-panel--about p {
+.app-about p {
   font-size: 1.05em;
 }
 
@@ -314,12 +311,6 @@ body {
 .app-panel__title {
   margin: 0;
   font-size: 1.15em;
-}
-
-.app-settings__title {
-  margin: 0;
-  font-size: 1.6em;
-  font-weight: 400;
 }
 
 /* Material UI's `Container` used wider gutters than the Material Plus default. */

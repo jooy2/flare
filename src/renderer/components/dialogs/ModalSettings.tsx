@@ -1,18 +1,17 @@
 import { useState } from 'react';
-import { MPButton, MPCard, MPCheckbox, MPRadio, MPRadioGroup, MPSelect } from 'material-plus-ui';
+import { MPButton, MPCheckbox, MPDialog, MPRadio, MPRadioGroup, MPSelect } from 'material-plus-ui';
 import { useMPMediaQuery } from 'material-plus-ui/hooks';
 import { useTranslation } from 'react-i18next';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/renderer/store';
-import Layout from '@/renderer/components/layouts/Layout';
 import PanelHeader from '@/renderer/components/views/PanelHeader';
 import { setConfig } from '@/renderer/store/slices/appScreenSlice';
-import ModalLocalStorageView from '../components/dialogs/ModalLocalStorageView';
+import ModalLocalStorageView from '@/renderer/components/dialogs/ModalLocalStorageView';
 
 const LANGUAGES = ['auto', 'ko', 'en', 'es', 'pt', 'de', 'fr', 'ja'];
 
-export default function Settings() {
+export default function ModalSettings() {
   const stateAppScreen = useSelector((state: RootState) => state.appScreen);
   const dispatch = useDispatch();
   const [t, i18n] = useTranslation(['common', 'notice', 'menu']);
@@ -133,6 +132,10 @@ export default function Settings() {
     dispatch(setConfig({ dialogLocalStorageViewOpen: true }));
   };
 
+  const handleDialogClose = (): void => {
+    dispatch(setConfig({ dialogSettingsOpen: false }));
+  };
+
   const checkboxes = [
     {
       name: 'showPlayerControllerChecked',
@@ -160,130 +163,135 @@ export default function Settings() {
   ];
 
   return (
-    <Layout title={t('menu:settings') as string} withBackButton>
-      <div className="app-scroll">
-        <MPCard className="app-panel" variant="elevated" elevation={1} density={0}>
-          <h2 className="app-settings__title">{t('menu:settings')}</h2>
-          <span className="app-panel-header__desc">{t('settings-info')}</span>
-          <div className="app-settings__group">
-            <div>
-              <PanelHeader
-                title={t('settings-language-title')}
-                desc={t('settings-language-desc')}
-              />
-              <div className="app-settings__control">
-                <MPSelect
-                  fullWidth
-                  name="language"
-                  id="system-language"
-                  items={LANGUAGES.map((value) => ({
-                    value,
-                    label: t(`menu:language-${value}`),
-                  }))}
-                  value={language}
-                  onValueChange={handleSelectChange}
-                />
-              </div>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-title-2')} desc={t('settings-desc-2')} />
-              <MPRadioGroup
-                className="app-settings__control"
-                orientation="horizontal"
-                aria-label="theme"
-                name="themeCheck"
-                value={themeCheck}
-                onValueChange={(value) => handleRadioChange('themeCheck', value)}
-              >
-                <MPRadio value="auto" label={t('menu:theme-auto')} />
-                <MPRadio value="light" label={t('menu:theme-light')} />
-                <MPRadio value="dark" label={t('menu:theme-dark')} />
-              </MPRadioGroup>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-title-1')} desc={t('settings-desc-1')} />
-              <div className="app-settings__checks">
-                {checkboxes.map((item) => (
-                  <MPCheckbox
-                    key={item.name}
-                    name={item.name}
-                    checked={item.checked}
-                    onCheckedChange={(value) => handleCheckboxChange(item.name, value)}
-                    label={t(item.label)}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-title-3')} desc={t('settings-desc-3')} />
-              <MPRadioGroup
-                className="app-settings__control"
-                aria-label="renderer"
-                name="preferredRendererCheck"
-                value={preferredRendererCheck}
-                onValueChange={(value) => handleRadioChange('preferredRendererCheck', value)}
-              >
-                <MPRadio value="auto" label={t('menu:renderer-auto')} />
-                <MPRadio value="wgpu-webgl" label={t('menu:renderer-wgpu-webgl')} />
-                <MPRadio value="webgl" label={t('menu:renderer-webgl')} />
-                <MPRadio value="canvas" label={t('menu:renderer-canvas')} />
-                <MPRadio value="webgpu" label={t('menu:renderer-webgpu')} />
-              </MPRadioGroup>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-title-4')} desc={t('settings-desc-4')} />
-              <MPRadioGroup
-                className="app-settings__control"
-                orientation="horizontal"
-                aria-label="quality"
-                name="qualityCheck"
-                value={qualityCheck}
-                onValueChange={(value) => handleRadioChange('qualityCheck', value)}
-              >
-                <MPRadio value="low" label={t('menu:quality-low')} />
-                <MPRadio value="medium" label={t('menu:quality-medium')} />
-                <MPRadio value="high" label={t('menu:quality-high')} />
-                <MPRadio value="best" label={t('menu:quality-best')} />
-              </MPRadioGroup>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-title-5')} desc={t('settings-desc-5')} />
-              <MPRadioGroup
-                className="app-settings__control"
-                orientation="horizontal"
-                aria-label="player runtime"
-                name="playerRuntimeCheck"
-                value={playerRuntimeCheck}
-                onValueChange={(value) => handleRadioChange('playerRuntimeCheck', value)}
-              >
-                <MPRadio value="flashPlayer" label="Adobe Flash Player" />
-                <MPRadio value="air" label="Adobe AIR" />
-              </MPRadioGroup>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-other-title')} desc={t('settings-other-desc')} />
-              <div className="app-settings__control">
-                <MPButton
-                  color="primary"
-                  variant="filled"
-                  onClick={() => handleOpenLocalStorageViewModal()}
-                >
-                  {t('menu:manage-data')}
-                </MPButton>
-                <ModalLocalStorageView />
-              </div>
-            </div>
-            <div>
-              <PanelHeader title={t('settings-reset-title')} desc={t('settings-reset-desc')} />
-              <div className="app-settings__control">
-                <MPButton variant="filled" color="secondary" onClick={handleReset}>
-                  {t('menu:reset-and-restart')}
-                </MPButton>
-              </div>
-            </div>
+    <MPDialog
+      size="md"
+      width={720}
+      open={stateAppScreen.dialogSettingsOpen}
+      onOpenChange={(next) => {
+        if (!next) handleDialogClose();
+      }}
+      title={t('menu:settings')}
+      description={t('settings-info')}
+      actions={
+        <MPButton variant="text" color="primary" onClick={handleDialogClose}>
+          {t('menu:close')}
+        </MPButton>
+      }
+    >
+      <div className="app-settings__group">
+        <div>
+          <PanelHeader title={t('settings-language-title')} desc={t('settings-language-desc')} />
+          <div className="app-settings__control">
+            <MPSelect
+              fullWidth
+              name="language"
+              id="system-language"
+              items={LANGUAGES.map((value) => ({
+                value,
+                label: t(`menu:language-${value}`),
+              }))}
+              value={language}
+              onValueChange={handleSelectChange}
+            />
           </div>
-        </MPCard>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-title-2')} desc={t('settings-desc-2')} />
+          <MPRadioGroup
+            className="app-settings__control"
+            orientation="horizontal"
+            aria-label="theme"
+            name="themeCheck"
+            value={themeCheck}
+            onValueChange={(value) => handleRadioChange('themeCheck', value)}
+          >
+            <MPRadio value="auto" label={t('menu:theme-auto')} />
+            <MPRadio value="light" label={t('menu:theme-light')} />
+            <MPRadio value="dark" label={t('menu:theme-dark')} />
+          </MPRadioGroup>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-title-1')} desc={t('settings-desc-1')} />
+          <div className="app-settings__checks">
+            {checkboxes.map((item) => (
+              <MPCheckbox
+                key={item.name}
+                name={item.name}
+                checked={item.checked}
+                onCheckedChange={(value) => handleCheckboxChange(item.name, value)}
+                label={t(item.label)}
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-title-3')} desc={t('settings-desc-3')} />
+          <MPRadioGroup
+            className="app-settings__control"
+            aria-label="renderer"
+            name="preferredRendererCheck"
+            value={preferredRendererCheck}
+            onValueChange={(value) => handleRadioChange('preferredRendererCheck', value)}
+          >
+            <MPRadio value="auto" label={t('menu:renderer-auto')} />
+            <MPRadio value="wgpu-webgl" label={t('menu:renderer-wgpu-webgl')} />
+            <MPRadio value="webgl" label={t('menu:renderer-webgl')} />
+            <MPRadio value="canvas" label={t('menu:renderer-canvas')} />
+            <MPRadio value="webgpu" label={t('menu:renderer-webgpu')} />
+          </MPRadioGroup>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-title-4')} desc={t('settings-desc-4')} />
+          <MPRadioGroup
+            className="app-settings__control"
+            orientation="horizontal"
+            aria-label="quality"
+            name="qualityCheck"
+            value={qualityCheck}
+            onValueChange={(value) => handleRadioChange('qualityCheck', value)}
+          >
+            <MPRadio value="low" label={t('menu:quality-low')} />
+            <MPRadio value="medium" label={t('menu:quality-medium')} />
+            <MPRadio value="high" label={t('menu:quality-high')} />
+            <MPRadio value="best" label={t('menu:quality-best')} />
+          </MPRadioGroup>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-title-5')} desc={t('settings-desc-5')} />
+          <MPRadioGroup
+            className="app-settings__control"
+            orientation="horizontal"
+            aria-label="player runtime"
+            name="playerRuntimeCheck"
+            value={playerRuntimeCheck}
+            onValueChange={(value) => handleRadioChange('playerRuntimeCheck', value)}
+          >
+            <MPRadio value="flashPlayer" label="Adobe Flash Player" />
+            <MPRadio value="air" label="Adobe AIR" />
+          </MPRadioGroup>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-other-title')} desc={t('settings-other-desc')} />
+          <div className="app-settings__control">
+            <MPButton
+              color="primary"
+              variant="filled"
+              onClick={() => handleOpenLocalStorageViewModal()}
+            >
+              {t('menu:manage-data')}
+            </MPButton>
+            <ModalLocalStorageView />
+          </div>
+        </div>
+        <div>
+          <PanelHeader title={t('settings-reset-title')} desc={t('settings-reset-desc')} />
+          <div className="app-settings__control">
+            <MPButton variant="filled" color="secondary" onClick={handleReset}>
+              {t('menu:reset-and-restart')}
+            </MPButton>
+          </div>
+        </div>
       </div>
-    </Layout>
+    </MPDialog>
   );
 }
